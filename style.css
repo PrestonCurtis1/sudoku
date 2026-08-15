@@ -1,0 +1,312 @@
+/* ==========================================================================
+   1. CSS Variables & Theme Setup
+   ========================================================================== */
+:root {
+  /* Light Mode Colors (Default) */
+  --bg-color: #f8f9fa;
+  --panel-bg: #ffffff;
+  --text-color: #212529;
+  --primary-color: #4a90e2;
+  --primary-hover: #357abd;
+  --secondary-color: #6c757d;
+  --secondary-hover: #5a6268;
+  --danger-color: #e74c3c;
+  --danger-hover: #c0392b;
+  --toggle-active: #f39c12;
+  --border-color: #cccccc;
+  --thick-border-color: #333333;
+  --cell-selected: #d0e1fd;
+  --cell-hover: #e8f0fe;
+  --cell-correct: #d4edda;
+  --text-correct: #155724;
+  --cell-incorrect: #f8d7da;
+  --text-incorrect: #721c24;
+  --note-color: #7f8c8d;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+  /* Dark Mode Overrides */
+  --bg-color: #121212;
+  --panel-bg: #1e1e1e;
+  --text-color: #e0e0e0;
+  --primary-color: #3700b3;
+  --primary-hover: #6200ee;
+  --secondary-color: #03dac6;
+  --secondary-hover: #018786;
+  --border-color: #444444;
+  --thick-border-color: #ffffff;
+  --cell-selected: #2c3e50;
+  --cell-hover: #2a2a2a;
+  --cell-correct: #1b4332;
+  --text-correct: #d4edda;
+  --cell-incorrect: #621708;
+  --text-incorrect: #f8d7da;
+  --note-color: #a0a0a0;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* ==========================================================================
+   2. Base & Layout Styles
+   ========================================================================== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+  background-color: var(--panel-bg);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  max-width: 500px;
+  width: 100%;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+/* Button UI Elements */
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn.primary {
+  background-color: var(--primary-color);
+  color: #fff;
+}
+.btn.primary:hover {
+  background-color: var(--primary-hover);
+}
+
+.btn.secondary {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+.btn.secondary:hover {
+  background-color: var(--secondary-hover);
+}
+
+.btn.danger {
+  background-color: var(--danger-color);
+  color: #fff;
+}
+.btn.danger:hover {
+  background-color: var(--danger-hover);
+}
+
+.btn.toggle {
+  background-color: var(--secondary-color);
+  color: #fff;
+}
+.btn.toggle.active {
+  background-color: var(--toggle-active);
+}
+
+/* ==========================================================================
+   3. Game Controls
+   ========================================================================== */
+.game-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+select {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--panel-bg);
+  color: var(--text-color);
+  outline: none;
+}
+
+/* ==========================================================================
+   4. Sudoku Grid Layout
+   ========================================================================== */
+.board-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-template-rows: repeat(9, 1fr);
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 3px solid var(--thick-border-color);
+}
+
+.cell {
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+/* Thicker borders for the 3x3 grids */
+.cell[data-col="2"], .cell[data-col="5"] {
+  border-right: 2.5px solid var(--thick-border-color);
+}
+.cell[data-row="2"], .cell[data-row="5"] {
+  border-bottom: 2.5px solid var(--thick-border-color);
+}
+
+/* Cell States */
+.cell:hover {
+  background-color: var(--cell-hover);
+}
+
+.cell.selected {
+  background-color: var(--cell-selected) !important;
+}
+
+.cell.given {
+  color: var(--text-color);
+  font-weight: 800;
+  cursor: not-allowed;
+}
+
+.cell.correct {
+  background-color: var(--cell-correct);
+  color: var(--text-correct);
+}
+
+.cell.incorrect {
+  background-color: var(--cell-incorrect);
+  color: var(--text-incorrect);
+}
+
+/* 3x3 Notes Grid Inside Empty Cells */
+.notes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.notes-grid span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--note-color);
+}
+
+/* ==========================================================================
+   5. Numpad & Controls
+   ========================================================================== */
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.num-btn {
+  padding: 12px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background-color: var(--panel-bg);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.num-btn:hover {
+  background-color: var(--cell-hover);
+}
+
+#erase-btn {
+  grid-column: span 1;
+}
+
+/* ==========================================================================
+   6. Statistics Section
+   ========================================================================== */
+.stats-board {
+  border-top: 1px solid var(--border-color);
+  padding-top: 15px;
+}
+
+.stats-board h2 {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+  text-align: center;
+}
+
+.stat-box {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--secondary-color);
+}
+
+.stat-value {
+  font-size: 1.3rem;
+  font-weight: bold;
+}

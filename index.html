@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sudoku Brainteaser</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-mode">
+  <div class="container">
+    <header>
+      <h1>Sudoku</h1>
+      <button id="theme-toggle-btn" class="btn secondary">Toggle Dark Mode</button>
+    </header>
+
+    <main>
+      <!-- Game Controls & Info -->
+      <section class="game-controls">
+        <div class="control-group">
+          <label for="difficulty">Difficulty:</label>
+          <select id="difficulty">
+            <option value="easy">Easy</option>
+            <option value="medium" selected>Medium</option>
+            <option value="hard">Hard</option>
+          </select>
+        </div>
+        <button id="new-game-btn" class="btn primary">New Game</button>
+        <button id="note-mode-btn" class="btn toggle">Notes Mode: OFF</button>
+      </section>
+
+      <!-- Sudoku Board (9x9 grid containing 3x3 sub-grids) -->
+      <section class="board-container">
+        <div id="sudoku-board" class="board"></div>
+      </section>
+
+      <!-- On-Screen Numpad for Mobile/Click Navigation -->
+      <section class="numpad">
+        <button class="num-btn" data-value="1">1</button>
+        <button class="num-btn" data-value="2">2</button>
+        <button class="num-btn" data-value="3">3</button>
+        <button class="num-btn" data-value="4">4</button>
+        <button class="num-btn" data-value="5">5</button>
+        <button class="num-btn" data-value="6">6</button>
+        <button class="num-btn" data-value="7">7</button>
+        <button class="num-btn" data-value="8">8</button>
+        <button class="num-btn" data-value="9">9</button>
+        <button id="erase-btn" class="btn danger">Erase</button>
+      </section>
+
+      <!-- Player Stats Dashboard (Saved to localStorage) -->
+      <section class="stats-board">
+        <h2>Statistics</h2>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span class="stat-label">Games Played</span>
+            <span id="games-played" class="stat-value">0</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Games Won</span>
+            <span id="games-won" class="stat-value">0</span>
+          </div>
+          <div class="stat-box">
+            <span class="stat-label">Score</span>
+            <span id="score" class="stat-value">0</span>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
